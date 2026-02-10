@@ -79,10 +79,10 @@ fn read_data_from_file(filename: &str) -> Result<Vec<(f64, f64)>, io::Error> {
 
 fn parse_line(line: &str) -> Option<(f64, f64)> {
     let parts: Vec<&str> = line.split('\t').collect();
-    if parts.len() == 2 {
-        if let (Ok(x), Ok(y)) = (parts[0].parse(), parts[1].parse()) {
-            return Some((x, y));
-        }
+    if parts.len() == 2
+        && let (Ok(x), Ok(y)) = (parts[0].parse(), parts[1].parse())
+    {
+        return Some((x, y));
     }
     None
 }
