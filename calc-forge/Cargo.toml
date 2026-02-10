@@ -1,0 +1,14 @@
+[package]
+name = "calc-forge"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+interpo = { path = "../interpo" }
+
+[dependencies.plotly]
+version = "0.14"
+features = [
+    "static_export_geckodriver",
+    "static_export_wd_download"
+]

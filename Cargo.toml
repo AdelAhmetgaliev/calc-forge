@@ -1,0 +1,9 @@
+[workspace]
+resolver="3"
+members = ["calc-forge", "interpo"]
+
+[profile.release]
+codegen-units = 1
+strip = "symbols"
+panic = "abort"
+lto = "fat"
