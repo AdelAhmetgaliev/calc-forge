@@ -14,15 +14,21 @@ use plotly::{
 use interpo::{lagrange_interp, select_nearest_points};
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let filename = "data/input_data.dat";
+    let filename = "data/input_data_normal.dat";
     let data_points = read_data_from_file(filename)?;
 
     let interp_x: f64 = 0.2;
-    let nearest_points = select_nearest_points(&data_points, 3, interp_x);
+    let nearest_points = select_nearest_points(&data_points, 5, interp_x);
     let interp_y: f64 = lagrange_interp(&nearest_points, interp_x)?;
 
     let (x_values, y_values): (Vec<f64>, Vec<f64>) = data_points.iter().cloned().unzip();
-    let y_values_interp: Vec<f64> = x_values
+    let x_values_interp: Vec<f64> = x_values
+        .iter()
+        .filter(|&x| f64::abs(x - 0.2) < 0.07)
+        .map(|&x| x)
+        .collect();
+
+    let y_values_interp: Vec<f64> = x_values_interp
         .iter()
         .map(|&x| lagrange_interp(&nearest_points, x).unwrap())
         .collect();
@@ -36,7 +42,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         "Входные данные",
     );
     let scatter_interp_data = create_scatter_trace(
-        x_values.clone(),
+        x_values_interp,
         y_values_interp,
         NamedColor::Green,
         "Многочлен Лагранжа 3 степени",
@@ -57,7 +63,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     plot.add_trace(text_trace);
     plot.set_layout(layout);
 
-    plot.write_image("graph", ImageFormat::PNG, 1280, 720, 2.0)?;
+    plot.write_image("graph_normal", ImageFormat::PNG, 1280, 720, 2.0)?;
 
     Ok(())
 }
