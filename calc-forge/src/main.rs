@@ -18,7 +18,13 @@ fn main() -> Result<(), Box<dyn Error>> {
     let data_points = read_data_from_file(filename)?;
 
     let interp_x: f64 = 0.2;
+    let poly_degree: usize = 3;
+
     let nearest_points = select_nearest_points(&data_points, 5, interp_x);
+    let interp_x: f64 = -0.2;
+    let poly_degree: usize = 3;
+
+    let nearest_points = select_nearest_points(&data_points, poly_degree, interp_x);
     let interp_y: f64 = lagrange_interp(&nearest_points, interp_x)?;
 
     let (x_values, y_values): (Vec<f64>, Vec<f64>) = data_points.iter().cloned().unzip();
@@ -45,7 +51,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         x_values_interp,
         y_values_interp,
         NamedColor::Green,
-        "Многочлен Лагранжа 3 степени",
+        "Полином Лагранжа 3 степени",
     );
     let scatter_interp_point = create_scatter_point(
         interp_x,
