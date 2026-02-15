@@ -17,10 +17,6 @@ fn main() -> Result<(), Box<dyn Error>> {
     let filename = "data/input_data_normal.dat";
     let data_points = read_data_from_file(filename)?;
 
-    let interp_x: f64 = 0.2;
-    let poly_degree: usize = 3;
-
-    let nearest_points = select_nearest_points(&data_points, 5, interp_x);
     let interp_x: f64 = -0.2;
     let poly_degree: usize = 3;
 
